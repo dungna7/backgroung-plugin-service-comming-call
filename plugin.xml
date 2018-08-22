@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="cordova-plugin-background-call" version="0.1.0" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android"><name>CordovaBackgroungService</name>
+	<js-module name="CordovaBackgroungService" src="www/CordovaBackgroungService.js"><clobbers target="cordova.plugins.CordovaBackgroungService" />
+	</js-module>
+	<platform name="android">
+		<config-file parent="/*" target="res/xml/config.xml">
+			<feature name="CordovaBackgroungService"><param name="android-package" value="cordova-plugin-background-call.CordovaBackgroungService" /></feature>
+		</config-file>
+		<config-file parent="/*" target="AndroidManifest.xml">
+			<uses-permission android:name="android.permission.INTERNET"/>
+			<uses-permission android:name="android.permission.RECORD_AUDIO"/>
+			<uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+			<uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+			<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+			<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+			<uses-permission android:name="android.permission.WAKE_LOCK" />
+			<uses-permission android:name="android.permission.INTERNET" />
+		</config-file>
+		
+		<config-file parent="/manifest/application" target="AndroidManifest.xml">
+			 <receiver
+				android:name="com.sinch.apptoappcall.RestartService"
+				android:enabled="true"
+				android:exported="true">
+				<intent-filter>
+					<action android:name="android.intent.action.BOOT_COMPLETED"/>
+				</intent-filter>
+			</receiver>
+			<service
+				android:name="com.sinch.apptoappcall.service"
+				android:enabled="true"
+				android:exported="true">
+			</service>
+		</config-file>
+		<framework custom="true" src="src/android/hypertrack-sdk.gradle" type="gradleReference" />
+		<source-file src="src/android/CordovaBackgroungService.java" target-dir="src/cordova-plugin-background-call/CordovaBackgroungService" />
+		<source-file src="src/android/CordovaBackgroungService.java" target-dir="src/cordova-plugin-background-call/RestartService" />
+		<source-file src="src/android/CordovaBackgroungService.java" target-dir="src/cordova-plugin-background-call/service" />
+	</platform>
+</plugin>
