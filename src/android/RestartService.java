@@ -1,4 +1,4 @@
-package com.sinch.apptoappcall;
+package com.service.backgroundcall;
 
 import android.content.Intent;
 import android.content.BroadcastReceiver;

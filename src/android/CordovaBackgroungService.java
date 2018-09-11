@@ -1,11 +1,16 @@
-package cordova-plugin-background-call;
+package com.service.backgroundcall;
 
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
-
+import org.apache.cordova.CordovaInterface;
+import org.apache.cordova.CordovaWebView;
+import android.view.WindowManager;
+import android.os.PowerManager;
+import android.content.Intent;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import android.util.Log;
 
 /**
  * This class echoes a string called from JavaScript.
