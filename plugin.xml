@@ -19,7 +19,7 @@
 		
 		<config-file parent="/manifest/application" target="AndroidManifest.xml">
 			 <receiver
-				android:name="com.sinch.apptoappcall.RestartService"
+				android:name="com.service.backgroundcall.RestartService"
 				android:enabled="true"
 				android:exported="true">
 				<intent-filter>
@@ -27,7 +27,7 @@
 				</intent-filter>
 			</receiver>
 			<service
-				android:name="com.sinch.apptoappcall.service"
+				android:name="com.service.backgroundcall.service"
 				android:enabled="true"
 				android:exported="true">
 			</service>
