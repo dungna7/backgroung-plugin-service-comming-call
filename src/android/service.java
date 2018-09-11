@@ -49,8 +49,8 @@ public class service extends Service {
             // mSocket.on("message", new Emitter.Listener() {
                 @Override
                 public void call(Object... args) {
-                    JSONObject data = (JSONObject) args[0];
-                    Log.d("MY_TAG", data);
+                    //JSONObject data = (JSONObject) args[0];
+                    //Log.d("MY_TAG", data);
                     String message = "chay app tu call comming detected";
                     // mSocket.emit("join",message);
                     Intent dialogIntent = new Intent(service.this, nisshin.ComeEchat.PrototypeVersion.MainActivity.class);
