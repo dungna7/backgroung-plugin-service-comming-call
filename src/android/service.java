@@ -43,14 +43,14 @@ public class service extends Service {
             // Log.d("MY_TAG", "start socketio listener");
             // mSocket = IO.socket(URL);
             // mSocket.connect();
-            // Log.d("MY_TAG", "start socketio listener 11");
+            Log.d("MY_TAG", "start socketio listener 11");
             mSocket.emit('voicechat:before_call');
             mSocket.on("voicechat:receiveCall", new Emitter.Listener() {
             // mSocket.on("message", new Emitter.Listener() {
                 @Override
                 public void call(Object... args) {
-                    JSONObject data = (JSONObject) args[0];
-                    Log.d("MY_TAG", data);
+                    //JSONObject data = (JSONObject) args[0];
+                    //Log.d("MY_TAG", data);
                     String message = "chay app tu call comming detected";
                     // mSocket.emit("join",message);
                     Intent dialogIntent = new Intent(service.this, nisshin.ComeEchat.PrototypeVersion.MainActivity.class);
