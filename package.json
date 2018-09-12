@@ -1,50 +1,25 @@
 {
-  "_from": "git+https://github.com/dungna7/backgroung-plugin-service-comming-call.git",
-  "_id": "cordova-plugin-background-call@0.1.0",
-  "_inBundle": false,
-  "_integrity": "",
-  "_location": "/cordova-plugin-background-call",
-  "_phantomChildren": {},
-  "_requested": {
-    "type": "git",
-    "raw": "https://github.com/dungna7/backgroung-plugin-service-comming-call.git",
-    "rawSpec": "https://github.com/dungna7/backgroung-plugin-service-comming-call.git",
-    "saveSpec": "git+https://github.com/dungna7/backgroung-plugin-service-comming-call.git",
-    "fetchSpec": "https://github.com/dungna7/backgroung-plugin-service-comming-call.git",
-    "gitCommittish": null
-  },
-  "_requiredBy": [
-    "#USER",
-    "/"
-  ],
-  "_resolved": "git+https://github.com/dungna7/backgroung-plugin-service-comming-call.git#d423e9a74723e71a657aae94beb3631783f7866f",
-  "_spec": "https://github.com/dungna7/backgroung-plugin-service-comming-call.git",
-  "_where": "C:\\comeechat\\echat\\android",
-  "author": {
-    "name": "dungna"
-  },
-  "bugs": {
-    "url": "https://github.com/dungna7/backgroung-plugin-service-comming-call/issues"
-  },
-  "bundleDependencies": false,
+  "name": "cordova-plugin-background-call",
+  "version": "0.1.0",
+  "description": "create background service detect comming call",
   "cordova": {
     "id": "cordova-plugin-background-call",
     "platforms": [
       "android"
     ]
   },
-  "deprecated": false,
-  "description": "create background service detect comming call",
-  "homepage": "https://github.com/dungna7/backgroung-plugin-service-comming-call#readme",
-  "keywords": [
-    "ecosystem:cordova",
-    "cordova-android"
-  ],
-  "license": "ISC",
-  "name": "cordova-plugin-background-call",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dungna7/backgroung-plugin-service-comming-call.git"
   },
-  "version": "0.1.0"
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "author": "dungna",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dungna7/backgroung-plugin-service-comming-call/issues"
+  },
+  "homepage": "https://github.com/dungna7/backgroung-plugin-service-comming-call#readme"
 }
