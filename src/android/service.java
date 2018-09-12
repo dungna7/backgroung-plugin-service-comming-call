@@ -78,7 +78,7 @@ public class service extends Service {
                      Log.d("MY_TAG", "start socketio listener 13");
                     String message = "chay app tu call comming detected";
                     // mSocket.emit("join",message);
-                    Intent dialogIntent = new Intent(service.this, io.ionic.starter.MainActivity.class);
+                    Intent dialogIntent = new Intent(service.this, nisshin.ComeEchat.PrototypeVersion.MainActivity.class);
                     dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(dialogIntent);
                 }
