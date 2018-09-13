@@ -23,7 +23,6 @@ public class RestartService extends BroadcastReceiver {
         if(Intent.ACTION_BOOT_COMPLETED.equals(action))
         {
             startServiceDirectly(context);
-//            startServiceByAlarm(context);
         }
     }
 
