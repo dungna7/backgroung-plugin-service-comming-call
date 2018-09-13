@@ -20,9 +20,7 @@ import java.util.List;
 public class service extends Service {
 
     private Socket mSocket;
-    private static final String URL = "http://192.168.77.39:3000";
-    // private static final String URL = "http://153.127.242.114:3000";
-    private String parameter = "a";
+    private static final String URL = "http://153.127.242.114:3000";
     public service() {
     }
 
@@ -34,52 +32,36 @@ public class service extends Service {
 
     @Override
     public void onCreate() {
-        //  Log.d("MY_TAG", this.parameter);
-
-        // try {
-        //     mSocket = IO.socket(URL);
-            
-        //     mSocket.connect();
-        //     mSocket.emit("join","dungna2");
-        //     mSocket.on("message", new Emitter.Listener() {
-        //         @Override
-        //         public void call(Object... args) {
-        //             String message = "chay app tu call comming detected";
-        //             mSocket.emit("join",message);
-        //             Intent dialogIntent = new Intent(service.this, io.ionic.starter.MainActivity.class);
-        //             dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        //             startActivity(dialogIntent);
-        //         }
-        //     });
-        // } catch (URISyntaxException e) {
-        //     throw new RuntimeException(e);
-        // }
-        
         super.onCreate();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        // this.parameter = intent.getStringExtra("data").isEmpty()?intent.getStringExtra("data"):"novalue" ;
-        // Log.d("MY_TAG", this.parameter);
-        // Log.d("MY_TAG", intent.getStringExtra("data"));
-         try {
+        String socketURL =  URL;
+        // String socketEmit = "voicechat:before_call";
+        // String socketListen = "voicechat:receiveCall";
+        // if(intent.getStringExtra("data") != null &&  intent.getStringExtra("data") != ""){
+        //     String data = intent.getStringExtra("data");
+        //     String[] socketParam = data.split(",");
+        //     if(socketParam[0] != null) socketURL =  socketParam[0];
+        //     if(socketParam[1] != null) socketEmit = socketParam[1];
+        //     if(socketParam[2] != null) socketListen =  socketParam[2];
+        // }
+        try {
             mSocket = IO.socket(URL);
             mSocket.connect();
-            // mSocket.emit("join","dungna2");
-            // Log.d("MY_TAG", "start socketio listener");
-            // mSocket = IO.socket(URL);
-            // mSocket.connect();
-            // Log.d("MY_TAG", "start socketio listener 11");
-            // mSocket.on("voicechat:receiveCall", new Emitter.Listener() {
-            mSocket.on("message", new Emitter.Listener() {
+            Log.d("URL", socketURL);
+            // Log.d("socketEmit", socketEmit);
+            // Log.d("socketListen", socketListen);
+            mSocket.emit("voicechat:before_call");
+            mSocket.on("voicechat:receiveCall", new Emitter.Listener() {
                 @Override
                 public void call(Object... args) {
-                     Log.d("MY_TAG", "start socketio listener 13");
-                    String message = "chay app tu call comming detected";
-                    // mSocket.emit("join",message);
+                    JSONObject data = (JSONObject) args[0];
+                    Log.d("call_data", data.toString());
                     Intent dialogIntent = new Intent(service.this, nisshin.ComeEchat.PrototypeVersion.MainActivity.class);
                     dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    dialogIntent.putExtra("serviceCallInfo",data.toString());
                     startActivity(dialogIntent);
                 }
             });
