@@ -15,6 +15,7 @@ import android.util.Log;
 import com.service.backgroundcall.service;
 import android.media.AudioManager;
 import android.content.Context;
+import android.os.Bundle;
 /**
  * This class echoes a string called from JavaScript.
  */
@@ -22,7 +23,10 @@ public class CordovaBackgroungService extends CordovaPlugin {
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
     }
-
+    @Override
+    protected void pluginInitialize() {
+        service.addWindowFlags(this.cordova.getActivity());
+    }
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         if (action.equals("runService")) {
@@ -60,13 +64,14 @@ public class CordovaBackgroungService extends CordovaPlugin {
 
     private void runService(String message, CallbackContext callbackContext) {
 		Intent intent = new Intent(this.cordova.getActivity(), service.class);  
-        if(message != null && message.length() > 0) intent.putExtra("data", message);
+        // if(message != null && message.length() > 0) intent.putExtra("data", message);
         this.cordova.getActivity().startService(intent);
         callbackContext.success(message);
     }
     private void getCallerInfo(String message, CallbackContext callbackContext) {
-        if(((CordovaActivity)this.cordova.getActivity()).getIntent().getStringExtra("serviceCallInfo") != null){
-            String serviceCallInfo = ((CordovaActivity)this.cordova.getActivity()).getIntent().getStringExtra("serviceCallInfo");
+        Bundle extras = ((CordovaActivity)this.cordova.getActivity()).getIntent().getExtras();
+        if(extras != null){
+            String serviceCallInfo = (String) extras.get("serviceCallInfo");
             Log.d("RECEIVER_serviceCallInfo", serviceCallInfo);
             callbackContext.success(serviceCallInfo);
         }
@@ -95,5 +100,4 @@ public class CordovaBackgroungService extends CordovaPlugin {
         audioManager.setSpeakerphoneOn(false);
         callbackContext.success(message);
     }
-
 }
