@@ -18,6 +18,6 @@ exports.speakerOn = function (arg0, success, error) {
 exports.speakerOff = function (arg0, success, error) {
     exec(success, error, 'CordovaBackgroungService', 'speakerOff', [arg0]);
 };
-exports.wakeup = function (arg0, success, error) {
-    exec(success, error, 'CordovaBackgroungService', 'wakeup', [arg0]);
+exports.lockScreen = function (arg0, success, error) {
+    exec(success, error, 'CordovaBackgroungService', 'lockScreen', [arg0]);
 };

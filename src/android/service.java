@@ -15,11 +15,14 @@ import io.socket.emitter.Emitter;
 import org.json.JSONObject;
 import android.os.Bundle;
 import java.net.URISyntaxException;
-
+import android.content.Context;
+import android.app.KeyguardManager;
 import static android.view.WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON;
 import static android.view.WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD;
 import static android.view.WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED;
 import static android.view.WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON;
+import static android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN;
+import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
 
 public class service extends Service {
 
@@ -69,10 +72,23 @@ public class service extends Service {
                     // System.out.println("className = " + className);
                     // Class mainact = Class.forName("nisshin.ComeEchat.PrototypeVersion.MainActivity");
                     // Log.d("call_data", className);
+                    
+                    // Check if the Device is Locked Or Not
+                    KeyguardManager myKM = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
+                    boolean isPhoneLocked = myKM.inKeyguardRestrictedInputMode();
+                    // Awake Device
+                    PowerManager powerManager = ((PowerManager) getSystemService(Context.POWER_SERVICE));
+                    PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "TAG");
+                    int level = PowerManager.SCREEN_DIM_WAKE_LOCK |
+                                PowerManager.ACQUIRE_CAUSES_WAKEUP;
+                    wakeLock = powerManager.newWakeLock(level, "TAG");
+                    wakeLock.setReferenceCounted(false);
+                    wakeLock.acquire();
+                    // start app 
                     Intent dialogIntent = new Intent(service.this, nisshin.ComeEchat.PrototypeVersion.MainActivity.class);
-                    dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    dialogIntent.putExtra("serviceCallInfo",data.toString());
-
+                    dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    dialogIntent.putExtra("serviceCallInfo", data.toString());
+                    dialogIntent.putExtra("serviceScrennInfo", isPhoneLocked);
                     startActivity(dialogIntent);
                 }
             });
@@ -85,19 +101,5 @@ public class service extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-    }
-    static void addWindowFlags(Activity app) {
-        final Window window = app.getWindow();
-
-        app.runOnUiThread(new Runnable() {
-            public void run() {
-                window.addFlags(
-                    FLAG_ALLOW_LOCK_WHILE_SCREEN_ON |
-                    FLAG_SHOW_WHEN_LOCKED |
-                    FLAG_TURN_SCREEN_ON |
-                    FLAG_DISMISS_KEYGUARD
-                );
-            }
-        });
     }
 }
