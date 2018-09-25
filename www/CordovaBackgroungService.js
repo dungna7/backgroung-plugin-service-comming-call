@@ -3,6 +3,9 @@ var exec = require('cordova/exec');
 exports.runService = function (arg0, success, error) {
     exec(success, error, 'CordovaBackgroungService', 'runService', [arg0]);
 };
+exports.stopService = function (arg0, success, error) {
+    exec(success, error, 'CordovaBackgroungService', 'stopService', [arg0]);
+};
 exports.getCallerInfo = function (arg0, success, error) {
     exec(success, error, 'CordovaBackgroungService', 'getCallerInfo', [arg0]);
 };
@@ -20,4 +23,7 @@ exports.speakerOff = function (arg0, success, error) {
 };
 exports.lockScreen = function (arg0, success, error) {
     exec(success, error, 'CordovaBackgroungService', 'lockScreen', [arg0]);
+};
+exports.lockStatus = function (arg0, success, error) {
+    exec(success, error, 'CordovaBackgroungService', 'lockStatus', [arg0]);
 };
