@@ -88,7 +88,7 @@ public class service extends Service {
                     throw new RuntimeException(e);
                 }
             }
-        }, 10000);
+        }, 50000);
         // If we get killed, after returning from here, restart
         return START_STICKY;
         // return super.onStartCommand(intent, flags, startId);
