@@ -26,6 +26,7 @@ import static android.view.WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED;
 import static android.view.WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON;
 import static android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN;
 import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
+import android.net.wifi.WifiManager;
 
 /**
  * This class echoes a string called from JavaScript.
@@ -33,7 +34,7 @@ import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
 public class CordovaBackgroungService extends CordovaPlugin {
     public static PowerManager.WakeLock wakeLock;
     public static PowerManager powerManager;
-    public static final String MY_PREFS_NAME = "MyPrefsFile";
+    private static final String MY_PREFS_NAME = "MyPrefsFile";
 
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
@@ -48,7 +49,8 @@ public class CordovaBackgroungService extends CordovaPlugin {
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
         if (action.equals("runService")) {
             String message = args.getString(0);
-            this.runService(message, callbackContext);
+            JSONObject json = args.getJSONObject(0);
+            this.runService(json, callbackContext);
             return true;
         }
         if (action.equals("stopService")) {
@@ -93,13 +95,27 @@ public class CordovaBackgroungService extends CordovaPlugin {
     }
 
     // start service listen on websocket after user login
-    private void runService(String message, CallbackContext callbackContext) {
+    private void runService(JSONObject message, CallbackContext callbackContext) {
+
         Intent intent = new Intent(this.cordova.getActivity(), service.class);
         this.cordova.getActivity().startService(intent);
-        callbackContext.success(message);
+        callbackContext.success(message.toString());
         SharedPreferences.Editor editor = this.cordova.getActivity().getApplicationContext()
                 .getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE).edit();
         editor.putBoolean("isLogout", false);
+        try {
+
+            Log.d("RECEIVER_service_message", message.getString("userName"));
+            editor.putString("url", message.getString("url"));
+            editor.putString("emitChanel", message.getString("emitChanel"));
+            editor.putString("listenChanel", message.getString("listenChanel"));
+            editor.putString("userName", message.getString("userName"));
+            editor.putString("userid", message.getString("userid"));
+
+        } catch (JSONException e) {
+            // some exception handler code.
+            Log.e("MYAPP", "unexpected JSON exception", e);
+        }
         editor.apply();
     }
 
