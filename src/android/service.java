@@ -60,12 +60,6 @@ public class service extends Service {
 
     @Override
     public void onCreate() {
-        // WifiManager.WifiLock lock = ((WifiManager)
-        // getSystemService(Context.WIFI_SERVICE)).createWifiLock("MyWifiLock");
-        // PowerManager pMgr = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        // PowerManager.WakeLock wakeLock =
-        // pMgr.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MyWakeLock");
-        // wakeLock.acquire();
         if (mTimer != null) // Cancel if already existed
             mTimer.cancel();
         else
@@ -82,7 +76,6 @@ public class service extends Service {
         }
 
         if (current == Settings.Global.WIFI_SLEEP_POLICY_DEFAULT) {
-            Log.i("WifiLockService.LOG_TAG", "Changing Wifi sleep policy to NEVER");
             Settings.System.putInt(getContentResolver(), Settings.Global.WIFI_SLEEP_POLICY,
                     Settings.Global.WIFI_SLEEP_POLICY_NEVER);
         } else {
@@ -136,29 +129,18 @@ public class service extends Service {
             @Override
             public void call(Object... args) {
                 JSONObject data = (JSONObject) args[0];
-                Log.d("TAG_DATA_CALL_INFOR", data.toString());
                 mSocket.emit(socketEmit);
                 String tourguiders = "NULL";
                 try {
                     tourguiders = data.getJSONObject("users").getString("tourguiders");
-                    Log.d("TAG_DATA_CALL_INFOR_tourguiders",
-                            data.getJSONObject("users").getString("tourguiders").toString());
                 } catch (Exception e) {
                     Log.e("MYAPP", "unexpected JSON exception", e);
                 }
                 if (!tourguiders.equalsIgnoreCase("NULL")) {
                     Boolean isInGroup = false;
                     try {
-                        Log.d("TAG_DATA_CALL_INFOR_tourguiders",
-                                data.getJSONObject("users").getString("tourguiders").toString());
-                        Log.d("TAG_userInfo_userName", userName);
-                        Log.d("TAG_userInfo_userName", userid);
-                        Log.d("TAG_DATA_CALL_INFOR_tourguiders",
-                                data.getJSONObject("users").getJSONArray("tourguiders").toString());
                         JSONArray arr = data.getJSONObject("users").getJSONArray("tourguiders");
                         for (int i = 0; i < arr.length(); i++) {
-                            Log.d("TAG_DATA_nickname", arr.getJSONObject(i).getString("nickname"));
-                            Log.d("TAG_DATA_nickname", arr.getJSONObject(i).getString("id"));
                             if (userName.equalsIgnoreCase(arr.getJSONObject(i).getString("nickname"))
                                     && userid.equalsIgnoreCase(arr.getJSONObject(i).getString("id"))) {
                                 isInGroup = true;
@@ -169,7 +151,6 @@ public class service extends Service {
                         Log.e("MYAPP", "unexpected JSON exception", e);
                     }
                     // Check if the Device is Locked Or Not
-                    Log.d("TAG_DATA_isInGroup", Boolean.toString(isInGroup));
                     if (isInGroup) {
                         KeyguardManager myKM = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
                         boolean isPhoneLocked = myKM.inKeyguardRestrictedInputMode();
