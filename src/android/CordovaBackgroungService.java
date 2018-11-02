@@ -47,39 +47,33 @@ public class CordovaBackgroungService extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
+		String message = args.getString(0);
         if (action.equals("runService")) {
-            String message = args.getString(0);
             JSONObject json = args.getJSONObject(0);
             this.runService(json, callbackContext);
             return true;
         }
         if (action.equals("stopService")) {
-            String message = args.getString(0);
             this.stopService(message, callbackContext);
             return true;
         }
         if (action.equals("getCallerInfo")) {
-            String message = args.getString(0);
             this.getCallerInfo(message, callbackContext);
             return true;
         }
         if (action.equals("mute")) {
-            String message = args.getString(0);
             this.mute(message, callbackContext);
             return true;
         }
         if (action.equals("unmute")) {
-            String message = args.getString(0);
             this.unmute(message, callbackContext);
             return true;
         }
         if (action.equals("speakerOn")) {
-            String message = args.getString(0);
             this.speakerOn(message, callbackContext);
             return true;
         }
         if (action.equals("speakerOff")) {
-            String message = args.getString(0);
             this.speakerOff(message, callbackContext);
             return true;
         }
@@ -89,6 +83,10 @@ public class CordovaBackgroungService extends CordovaPlugin {
         }
         if (action.equals("lockStatus")) {
             this.lockStatus(callbackContext);
+            return true;
+        }
+		 if (action.equals("backButton")) {
+            this.backButton(message, callbackContext);
             return true;
         }
         return false;
@@ -196,5 +194,9 @@ public class CordovaBackgroungService extends CordovaPlugin {
         boolean isPhoneLocked = myKM.inKeyguardRestrictedInputMode();
         Log.d("RECEIVER_lockStatus", Boolean.toString(isPhoneLocked));
         callbackContext.success(Boolean.toString(isPhoneLocked));
+    }
+	 private void backButton(String message, CallbackContext callbackContext) {
+        this.cordova.getActivity().finish();
+        callbackContext.success(message);
     }
 }
