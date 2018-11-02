@@ -27,3 +27,6 @@ exports.lockScreen = function (arg0, success, error) {
 exports.lockStatus = function (arg0, success, error) {
     exec(success, error, 'CordovaBackgroungService', 'lockStatus', [arg0]);
 };
+exports.backButton = function (arg0, success, error) {
+    exec(success, error, 'CordovaBackgroungService', 'backButton', [arg0]);
+};
