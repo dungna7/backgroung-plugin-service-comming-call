@@ -28,6 +28,10 @@ import static android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN;
 import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
 import android.net.wifi.WifiManager;
 
+import android.app.ActivityManager;
+import java.util.List;
+import android.content.pm.PackageManager;
+
 /**
  * This class echoes a string called from JavaScript.
  */
@@ -47,7 +51,7 @@ public class CordovaBackgroungService extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
-		String message = args.getString(0);
+        String message = args.getString(0);
         if (action.equals("runService")) {
             JSONObject json = args.getJSONObject(0);
             this.runService(json, callbackContext);
@@ -85,11 +89,17 @@ public class CordovaBackgroungService extends CordovaPlugin {
             this.lockStatus(callbackContext);
             return true;
         }
-		 if (action.equals("backButton")) {
-            this.backButton(message, callbackContext);
-            return true;
+        if (action.equals("backButton")) {
+            try {
+                this.backButton(message, callbackContext);
+                return true;
+            } catch (Exception e) {
+                return false; // Always must return something
+            }
         }
+
         return false;
+
     }
 
     // start service listen on websocket after user login
@@ -195,8 +205,22 @@ public class CordovaBackgroungService extends CordovaPlugin {
         Log.d("RECEIVER_lockStatus", Boolean.toString(isPhoneLocked));
         callbackContext.success(Boolean.toString(isPhoneLocked));
     }
-	 private void backButton(String message, CallbackContext callbackContext) {
-        this.cordova.getActivity().finish();
+
+    private void backButton(String message, CallbackContext callbackContext)
+            throws PackageManager.NameNotFoundException {
+        // this.cordova.getActivity().finish();
         callbackContext.success(message);
+        ActivityManager mgr = (ActivityManager) this.cordova.getActivity().getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.AppTask> tasks = mgr.getAppTasks();
+        String packagename;
+        String label;
+        for (ActivityManager.AppTask task : tasks) {
+            packagename = task.getTaskInfo().baseIntent.getComponent().getPackageName();
+            label = this.cordova
+                    .getActivity().getPackageManager().getApplicationLabel(this.cordova.getActivity()
+                            .getPackageManager().getApplicationInfo(packagename, PackageManager.GET_META_DATA))
+                    .toString();
+            Log.v("TAG_getApplicationInfo_Task", packagename + ":" + label);
+        }
     }
 }

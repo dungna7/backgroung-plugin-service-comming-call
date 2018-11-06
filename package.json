@@ -7,8 +7,8 @@
   "_phantomChildren": {},
   "_requested": {
     "type": "git",
-    "raw": "git+https://github.com/dungna7/backgroung-plugin-service-comming-call.git",
-    "rawSpec": "git+https://github.com/dungna7/backgroung-plugin-service-comming-call.git",
+    "raw": "https://github.com/dungna7/backgroung-plugin-service-comming-call.git",
+    "rawSpec": "https://github.com/dungna7/backgroung-plugin-service-comming-call.git",
     "saveSpec": "git+https://github.com/dungna7/backgroung-plugin-service-comming-call.git",
     "fetchSpec": "https://github.com/dungna7/backgroung-plugin-service-comming-call.git",
     "gitCommittish": null
@@ -17,8 +17,8 @@
     "#USER",
     "/"
   ],
-  "_resolved": "git+https://github.com/dungna7/backgroung-plugin-service-comming-call.git#71fd9d782c3a8d0a6bac141508c20582c27a6670",
-  "_spec": "git+https://github.com/dungna7/backgroung-plugin-service-comming-call.git",
+  "_resolved": "git+https://github.com/dungna7/backgroung-plugin-service-comming-call.git#abebbce14f411214a4f31acce447ab0bf5e6d75f",
+  "_spec": "https://github.com/dungna7/backgroung-plugin-service-comming-call.git",
   "_where": "C:\\dungna-project\\comechat-servers\\android",
   "author": {
     "name": "dungna"
