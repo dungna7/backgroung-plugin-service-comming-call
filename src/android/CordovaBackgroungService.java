@@ -28,10 +28,6 @@ import static android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN;
 import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
 import android.net.wifi.WifiManager;
 
-import android.app.ActivityManager;
-import java.util.List;
-import android.content.pm.PackageManager;
-
 /**
  * This class echoes a string called from JavaScript.
  */
@@ -90,12 +86,8 @@ public class CordovaBackgroungService extends CordovaPlugin {
             return true;
         }
         if (action.equals("backButton")) {
-            try {
-                this.backButton(message, callbackContext);
-                return true;
-            } catch (Exception e) {
-                return false; // Always must return something
-            }
+			this.backButton(message, callbackContext);
+			return true;
         }
 
         return false;
@@ -206,21 +198,8 @@ public class CordovaBackgroungService extends CordovaPlugin {
         callbackContext.success(Boolean.toString(isPhoneLocked));
     }
 
-    private void backButton(String message, CallbackContext callbackContext)
-            throws PackageManager.NameNotFoundException {
-        // this.cordova.getActivity().finish();
+    private void backButton(String message, CallbackContext callbackContext) {
+        this.cordova.getActivity().finish();
         callbackContext.success(message);
-        ActivityManager mgr = (ActivityManager) this.cordova.getActivity().getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.AppTask> tasks = mgr.getAppTasks();
-        String packagename;
-        String label;
-        for (ActivityManager.AppTask task : tasks) {
-            packagename = task.getTaskInfo().baseIntent.getComponent().getPackageName();
-            label = this.cordova
-                    .getActivity().getPackageManager().getApplicationLabel(this.cordova.getActivity()
-                            .getPackageManager().getApplicationInfo(packagename, PackageManager.GET_META_DATA))
-                    .toString();
-            Log.v("TAG_getApplicationInfo_Task", packagename + ":" + label);
-        }
     }
 }
