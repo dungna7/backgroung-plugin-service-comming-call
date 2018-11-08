@@ -219,11 +219,12 @@ public class CordovaBackgroungService extends CordovaPlugin {
     private void vibrate(String message, CallbackContext callbackContext) {
         Vibrator v = (Vibrator) this.cordova.getActivity().getSystemService(Context.VIBRATOR_SERVICE);
         // Vibrate for 500 milliseconds
+        Long vibratorTime = Long.parseLong(message);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            v.vibrate(VibrationEffect.createOneShot(message, VibrationEffect.DEFAULT_AMPLITUDE));
+            v.vibrate(VibrationEffect.createOneShot(vibratorTime, VibrationEffect.DEFAULT_AMPLITUDE));
         } else {
             // deprecated in API 26
-            v.vibrate(message);
+            v.vibrate(vibratorTime);
         }
         callbackContext.success(message);
     }
