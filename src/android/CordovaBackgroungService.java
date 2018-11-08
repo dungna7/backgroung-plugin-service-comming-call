@@ -100,6 +100,13 @@ public class CordovaBackgroungService extends CordovaPlugin {
 
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        // Intent intent = new Intent(this.cordova.getActivity(), service.class);
+        // this.cordova.getActivity().startService(intent);
+    }
+
     // start service listen on websocket after user login
     private void runService(JSONObject message, CallbackContext callbackContext) {
 
@@ -213,10 +220,10 @@ public class CordovaBackgroungService extends CordovaPlugin {
         Vibrator v = (Vibrator) this.cordova.getActivity().getSystemService(Context.VIBRATOR_SERVICE);
         // Vibrate for 500 milliseconds
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            v.vibrate(VibrationEffect.createOneShot(1500, VibrationEffect.DEFAULT_AMPLITUDE));
+            v.vibrate(VibrationEffect.createOneShot(message, VibrationEffect.DEFAULT_AMPLITUDE));
         } else {
             // deprecated in API 26
-            v.vibrate(1500);
+            v.vibrate(message);
         }
         callbackContext.success(message);
     }
