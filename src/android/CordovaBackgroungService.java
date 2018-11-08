@@ -124,6 +124,7 @@ public class CordovaBackgroungService extends CordovaPlugin {
             editor.putString("listenChanel", message.getString("listenChanel"));
             editor.putString("userName", message.getString("userName"));
             editor.putString("userid", message.getString("userid"));
+            editor.putString("userCompanycd", message.getString("userCompanycd"));
 
         } catch (JSONException e) {
             // some exception handler code.
