@@ -60,11 +60,11 @@ public class service extends Service {
 
     @Override
     public void onCreate() {
-        if (mTimer != null) // Cancel if already existed
-            mTimer.cancel();
-        else
-            mTimer = new Timer(); // recreate new
-        mTimer.scheduleAtFixedRate(new TimeDisplay(), 0, notify);
+        // if (mTimer != null) // Cancel if already existed
+        // mTimer.cancel();
+        // else
+        // mTimer = new Timer(); // recreate new
+        // mTimer.scheduleAtFixedRate(new TimeDisplay(), 0, notify);
         ContentResolver cr = getContentResolver();
 
         int current = Settings.Global.WIFI_SLEEP_POLICY_DEFAULT;

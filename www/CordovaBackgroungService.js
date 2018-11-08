@@ -30,3 +30,6 @@ exports.lockStatus = function (arg0, success, error) {
 exports.backButton = function (arg0, success, error) {
     exec(success, error, 'CordovaBackgroungService', 'backButton', [arg0]);
 };
+exports.vibrate = function (arg0, success, error) {
+    exec(success, error, 'CordovaBackgroungService', 'vibrate', [arg0]);
+};

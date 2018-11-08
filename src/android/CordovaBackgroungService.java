@@ -27,6 +27,9 @@ import static android.view.WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON;
 import static android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN;
 import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
 import android.net.wifi.WifiManager;
+import android.os.Vibrator;
+import android.os.Build;
+import android.os.VibrationEffect;
 
 /**
  * This class echoes a string called from JavaScript.
@@ -86,10 +89,13 @@ public class CordovaBackgroungService extends CordovaPlugin {
             return true;
         }
         if (action.equals("backButton")) {
-			this.backButton(message, callbackContext);
-			return true;
+            this.backButton(message, callbackContext);
+            return true;
         }
-
+        if (action.equals("vibrate")) {
+            this.vibrate(message, callbackContext);
+            return true;
+        }
         return false;
 
     }
@@ -200,6 +206,18 @@ public class CordovaBackgroungService extends CordovaPlugin {
 
     private void backButton(String message, CallbackContext callbackContext) {
         this.cordova.getActivity().finish();
+        callbackContext.success(message);
+    }
+
+    private void vibrate(String message, CallbackContext callbackContext) {
+        Vibrator v = (Vibrator) this.cordova.getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+        // Vibrate for 500 milliseconds
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            v.vibrate(VibrationEffect.createOneShot(1500, VibrationEffect.DEFAULT_AMPLITUDE));
+        } else {
+            // deprecated in API 26
+            v.vibrate(1500);
+        }
         callbackContext.success(message);
     }
 }
