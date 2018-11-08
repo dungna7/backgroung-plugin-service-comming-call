@@ -18,6 +18,7 @@
 			<uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
 			<uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     		<uses-permission android:name="com.symbol.emdk.permission.EMDK" />
+			<uses-permission android:name="android.permission.VIBRATE"/>
 		</config-file>
 		
 		<config-file parent="/manifest/application" target="AndroidManifest.xml">
