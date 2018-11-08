@@ -46,6 +46,7 @@ public class service extends Service {
     private String socketURL;
     private String userName;
     private String userid;
+    private String userCompanycd;
     public static final int notify = 50000; // interval between two services(Here Service run every 5 Minute)
     private Handler mHandler = new Handler(); // run on another Thread to avoid crash
     private Timer mTimer = null;
@@ -84,6 +85,7 @@ public class service extends Service {
         SharedPreferences prefs = getApplicationContext().getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE);
         this.userName = prefs.getString("userName", "");
         this.userid = prefs.getString("userid", "");
+        this.userCompanycd = prefs.getString("userCompanycd", "");
         this.userInfo = prefs.getString("userInfo", "");
         this.socketURL = prefs.getString("url", URL);
         this.socketEmit = prefs.getString("emitChanel", "voicechat:before_call");
@@ -131,24 +133,28 @@ public class service extends Service {
                 JSONObject data = (JSONObject) args[0];
                 mSocket.emit(socketEmit);
                 String tourguiders = "NULL";
+                String companycd = "";
                 try {
                     tourguiders = data.getJSONObject("users").getString("tourguiders");
+                    companycd = data.getJSONObject("users").getString("companyofGroup");
                 } catch (Exception e) {
                     Log.e("MYAPP", "unexpected JSON exception", e);
                 }
                 if (!tourguiders.equalsIgnoreCase("NULL")) {
                     Boolean isInGroup = false;
-                    try {
-                        JSONArray arr = data.getJSONObject("users").getJSONArray("tourguiders");
-                        for (int i = 0; i < arr.length(); i++) {
-                            if (userName.equalsIgnoreCase(arr.getJSONObject(i).getString("nickname"))
-                                    && userid.equalsIgnoreCase(arr.getJSONObject(i).getString("id"))) {
-                                isInGroup = true;
+                    if (userCompanycd.equalsIgnoreCase(companycd)) {
+                        try {
+                            JSONArray arr = data.getJSONObject("users").getJSONArray("tourguiders");
+                            for (int i = 0; i < arr.length(); i++) {
+                                if (userName.equalsIgnoreCase(arr.getJSONObject(i).getString("nickname"))
+                                        && userid.equalsIgnoreCase(arr.getJSONObject(i).getString("id"))) {
+                                    isInGroup = true;
+                                }
                             }
+                        } catch (JSONException e) {
+                            // some exception handler code.
+                            Log.e("MYAPP", "unexpected JSON exception", e);
                         }
-                    } catch (JSONException e) {
-                        // some exception handler code.
-                        Log.e("MYAPP", "unexpected JSON exception", e);
                     }
                     // Check if the Device is Locked Or Not
                     if (isInGroup) {
