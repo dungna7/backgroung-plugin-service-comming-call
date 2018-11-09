@@ -108,10 +108,10 @@ public class service extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
+    // @Override
+    // public void onDestroy() {
+    // super.onDestroy();
+    // }
 
     class TimeDisplay extends TimerTask {
         @Override
