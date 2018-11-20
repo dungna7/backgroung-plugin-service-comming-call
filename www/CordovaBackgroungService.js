@@ -33,3 +33,6 @@ exports.backButton = function (arg0, success, error) {
 exports.vibrate = function (arg0, success, error) {
     exec(success, error, 'CordovaBackgroungService', 'vibrate', [arg0]);
 };
+exports.wakeup = function (arg0, success, error) {
+    exec(success, error, 'CordovaBackgroungService', 'wakeup', [arg0]);
+};

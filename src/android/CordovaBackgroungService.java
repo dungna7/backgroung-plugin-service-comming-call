@@ -36,7 +36,6 @@ import android.os.VibrationEffect;
  */
 public class CordovaBackgroungService extends CordovaPlugin {
     public static PowerManager.WakeLock wakeLock;
-    public static PowerManager powerManager;
     private static final String MY_PREFS_NAME = "MyPrefsFile";
 
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
@@ -94,6 +93,10 @@ public class CordovaBackgroungService extends CordovaPlugin {
         }
         if (action.equals("vibrate")) {
             this.vibrate(message, callbackContext);
+            return true;
+        }
+        if (action.equals("wakeup")) {
+            this.wakeup(message, callbackContext);
             return true;
         }
         return false;
@@ -228,5 +231,58 @@ public class CordovaBackgroungService extends CordovaPlugin {
             v.vibrate(vibratorTime);
         }
         callbackContext.success(message);
+    }
+     /**
+     * Wakes up the device if the screen isn't still on.
+     */
+    private void wakeup(String message, CallbackContext callbackContext) {
+        try {
+            acquireWakeLock();
+        } catch (Exception e) {
+            releaseWakeLock();
+        }
+        callbackContext.success(message);
+    }
+    /**
+     * If the screen is active.
+     */
+    @SuppressWarnings("deprecation")
+    private boolean isDimmed() {
+        PowerManager pm = (PowerManager) this.cordova.getActivity().getSystemService(Context.POWER_SERVICE);
+
+        if (Build.VERSION.SDK_INT < 20) {
+            return !pm.isScreenOn();
+        }
+
+        return !pm.isInteractive();
+    }
+
+    /**
+     * Acquire a wake lock to wake up the device.
+     */
+    private void acquireWakeLock() {
+        PowerManager pm = (PowerManager) this.cordova.getActivity().getSystemService(Context.POWER_SERVICE);
+        releaseWakeLock();
+
+        if (!isDimmed()) {
+            return;
+        }
+
+        int level = PowerManager.SCREEN_DIM_WAKE_LOCK |
+                    PowerManager.ACQUIRE_CAUSES_WAKEUP;
+
+        wakeLock = pm.newWakeLock(level, "BackgroundModeExt");
+        wakeLock.setReferenceCounted(false);
+        wakeLock.acquire();
+    }
+
+    /**
+     * Releases the previously acquire wake lock.
+     */
+    private void releaseWakeLock() {
+        if (wakeLock != null && wakeLock.isHeld()) {
+            wakeLock.release();
+            wakeLock = null;
+        }
     }
 }
