@@ -40,6 +40,7 @@ public class service extends Service {
     private Socket mSocket;
     private static final String URL = "http://153.127.242.114:3000";
     private static final String MY_PREFS_NAME = "MyPrefsFile";
+    private PowerManager.WakeLock wakeLock;
     private String userInfo;
     private String socketEmit;
     private String socketListen;
@@ -162,12 +163,21 @@ public class service extends Service {
                         boolean isPhoneLocked = myKM.inKeyguardRestrictedInputMode();
                         // Awake Device
                         PowerManager powerManager = ((PowerManager) getSystemService(Context.POWER_SERVICE));
-                        PowerManager.WakeLock wakeLock = powerManager
+                        
+                        if (wakeLock != null && wakeLock.isHeld()) {
+                            wakeLock.release();
+                            wakeLock = null;
+                        }
+                        wakeLock = powerManager
                                 .newWakeLock(PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "TAG");
                         int level = PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP;
                         wakeLock = powerManager.newWakeLock(level, "TAG");
                         wakeLock.setReferenceCounted(false);
-                        wakeLock.acquire();
+                        try {
+                            wakeLock.acquire();
+                        } catch (Exception e) {
+                            wakeLock.release();
+                        }
                         // start app
                         Intent dialogIntent = new Intent(service.this,
                                 nisshin.ComeEchat.PrototypeVersion.MainActivity.class);
