@@ -36,3 +36,6 @@ exports.vibrate = function (arg0, success, error) {
 exports.wakeup = function (arg0, success, error) {
     exec(success, error, 'CordovaBackgroungService', 'wakeup', [arg0]);
 };
+exports.getAudioManager = function (arg0, success, error) {
+    exec(success, error, 'CordovaBackgroungService', 'getAudioManager', [arg0]);
+};

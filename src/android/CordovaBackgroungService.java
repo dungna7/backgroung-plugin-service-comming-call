@@ -37,7 +37,9 @@ import android.os.VibrationEffect;
 public class CordovaBackgroungService extends CordovaPlugin {
     public static PowerManager.WakeLock wakeLock;
     private static final String MY_PREFS_NAME = "MyPrefsFile";
-
+    private int oldAudioMode;
+    private int oldRingerMode ;
+    private boolean isSpeakerPhoneOn;
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
     }
@@ -97,6 +99,10 @@ public class CordovaBackgroungService extends CordovaPlugin {
         }
         if (action.equals("wakeup")) {
             this.wakeup(message, callbackContext);
+            return true;
+        }
+	if (action.equals("getAudioManager")) {
+            this.getAudioManager(message, callbackContext);
             return true;
         }
         return false;
@@ -284,5 +290,12 @@ public class CordovaBackgroungService extends CordovaPlugin {
             wakeLock.release();
             wakeLock = null;
         }
+    }
+    private void getAudioManager(String message, CallbackContext callbackContext) {
+        AudioManager audioManager = (AudioManager) this.cordova.getActivity().getSystemService(Context.AUDIO_SERVICE);
+        // oldAudioMode = audioManager.getMode();
+        oldRingerMode = audioManager.getRingerMode();
+        // isSpeakerPhoneOn = audioManager.isSpeakerphoneOn();
+        callbackContext.success( Integer.toString(oldRingerMode));
     }
 }
