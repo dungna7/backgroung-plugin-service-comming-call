@@ -158,6 +158,7 @@ public class CordovaBackgroungService extends CordovaPlugin {
         Bundle extras = ((CordovaActivity) this.cordova.getActivity()).getIntent().getExtras();
         if (extras != null) {
             String serviceCallInfo = (String) extras.get("serviceCallInfo");
+            this.cordova.getActivity().getIntent().removeExtra("serviceCallInfo");
             callbackContext.success(serviceCallInfo);
         }
     }
