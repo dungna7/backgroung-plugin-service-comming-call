@@ -24,7 +24,6 @@ import static android.view.WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCRE
 import static android.view.WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD;
 import static android.view.WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED;
 import static android.view.WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON;
-import static android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN;
 import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
 import android.net.wifi.WifiManager;
 import android.os.Vibrator;
@@ -38,8 +37,9 @@ public class CordovaBackgroungService extends CordovaPlugin {
     public static PowerManager.WakeLock wakeLock;
     private static final String MY_PREFS_NAME = "MyPrefsFile";
     private int oldAudioMode;
-    private int oldRingerMode ;
+    private int oldRingerMode;
     private boolean isSpeakerPhoneOn;
+
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
     }
@@ -101,7 +101,7 @@ public class CordovaBackgroungService extends CordovaPlugin {
             this.wakeup(message, callbackContext);
             return true;
         }
-	if (action.equals("getAudioManager")) {
+        if (action.equals("getAudioManager")) {
             this.getAudioManager(message, callbackContext);
             return true;
         }
@@ -197,8 +197,7 @@ public class CordovaBackgroungService extends CordovaPlugin {
 
         this.cordova.getActivity().runOnUiThread(new Runnable() {
             public void run() {
-                window.addFlags(FLAG_ALLOW_LOCK_WHILE_SCREEN_ON | FLAG_SHOW_WHEN_LOCKED | FLAG_FULLSCREEN
-                        | FLAG_DISMISS_KEYGUARD);
+                window.addFlags(FLAG_ALLOW_LOCK_WHILE_SCREEN_ON | FLAG_SHOW_WHEN_LOCKED | FLAG_DISMISS_KEYGUARD);
                 window.addFlags(FLAG_TURN_SCREEN_ON | FLAG_KEEP_SCREEN_ON);
             }
         });
@@ -239,7 +238,8 @@ public class CordovaBackgroungService extends CordovaPlugin {
         }
         callbackContext.success(message);
     }
-     /**
+
+    /**
      * Wakes up the device if the screen isn't still on.
      */
     private void wakeup(String message, CallbackContext callbackContext) {
@@ -250,6 +250,7 @@ public class CordovaBackgroungService extends CordovaPlugin {
         }
         callbackContext.success(message);
     }
+
     /**
      * If the screen is active.
      */
@@ -275,8 +276,7 @@ public class CordovaBackgroungService extends CordovaPlugin {
             return;
         }
 
-        int level = PowerManager.SCREEN_DIM_WAKE_LOCK |
-                    PowerManager.ACQUIRE_CAUSES_WAKEUP;
+        int level = PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP;
 
         wakeLock = pm.newWakeLock(level, "BackgroundModeExt");
         wakeLock.setReferenceCounted(false);
@@ -292,11 +292,12 @@ public class CordovaBackgroungService extends CordovaPlugin {
             wakeLock = null;
         }
     }
+
     private void getAudioManager(String message, CallbackContext callbackContext) {
         AudioManager audioManager = (AudioManager) this.cordova.getActivity().getSystemService(Context.AUDIO_SERVICE);
         // oldAudioMode = audioManager.getMode();
         oldRingerMode = audioManager.getRingerMode();
         // isSpeakerPhoneOn = audioManager.isSpeakerphoneOn();
-        callbackContext.success( Integer.toString(oldRingerMode));
+        callbackContext.success(Integer.toString(oldRingerMode));
     }
 }

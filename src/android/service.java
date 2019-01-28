@@ -24,7 +24,6 @@ import static android.view.WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCRE
 import static android.view.WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD;
 import static android.view.WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED;
 import static android.view.WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON;
-import static android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN;
 import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
 import android.content.SharedPreferences;
 import android.os.Handler;
@@ -163,7 +162,7 @@ public class service extends Service {
                         boolean isPhoneLocked = myKM.inKeyguardRestrictedInputMode();
                         // Awake Device
                         PowerManager powerManager = ((PowerManager) getSystemService(Context.POWER_SERVICE));
-                        
+
                         if (wakeLock != null && wakeLock.isHeld()) {
                             wakeLock.release();
                             wakeLock = null;
