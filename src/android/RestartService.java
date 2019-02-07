@@ -20,6 +20,7 @@ public class RestartService extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        Log.i(" receive_push", "receive push notification from GMS");
         SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE);
         Boolean isLogout = prefs.getBoolean("isLogout", true);
         if (!isLogout) {
@@ -34,8 +35,9 @@ public class RestartService extends BroadcastReceiver {
                 }
             } else {
                 ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-                NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-                boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+                // NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+                // boolean isConnected = activeNetwork != null &&
+                // activeNetwork.isConnectedOrConnecting();
                 Intent startServiceIntent = new Intent(context, service.class);
                 context.stopService(startServiceIntent);
                 context.startService(startServiceIntent);

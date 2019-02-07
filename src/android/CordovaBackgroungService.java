@@ -24,6 +24,7 @@ import static android.view.WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCRE
 import static android.view.WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD;
 import static android.view.WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED;
 import static android.view.WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON;
+import static android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN;
 import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
 import android.net.wifi.WifiManager;
 import android.os.Vibrator;
@@ -127,7 +128,7 @@ public class CordovaBackgroungService extends CordovaPlugin {
         editor.putBoolean("isLogout", false);
         try {
 
-            Log.d("RECEIVER_service_message", message.getString("userName"));
+            Log.d("RECEIVER_service_message", message.getString("url"));
             editor.putString("url", message.getString("url"));
             editor.putString("emitChanel", message.getString("emitChanel"));
             editor.putString("listenChanel", message.getString("listenChanel"));
@@ -140,6 +141,7 @@ public class CordovaBackgroungService extends CordovaPlugin {
             Log.e("MYAPP", "unexpected JSON exception", e);
         }
         editor.apply();
+        this.cordova.getActivity().stopService(intent);
     }
 
     // stop service ,when user logout
@@ -197,7 +199,8 @@ public class CordovaBackgroungService extends CordovaPlugin {
 
         this.cordova.getActivity().runOnUiThread(new Runnable() {
             public void run() {
-                window.addFlags(FLAG_ALLOW_LOCK_WHILE_SCREEN_ON | FLAG_SHOW_WHEN_LOCKED | FLAG_DISMISS_KEYGUARD);
+                window.addFlags(FLAG_ALLOW_LOCK_WHILE_SCREEN_ON | FLAG_SHOW_WHEN_LOCKED | FLAG_FULLSCREEN
+                        | FLAG_DISMISS_KEYGUARD);
                 window.addFlags(FLAG_TURN_SCREEN_ON | FLAG_KEEP_SCREEN_ON);
             }
         });

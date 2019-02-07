@@ -17,7 +17,7 @@
     "#USER",
     "/"
   ],
-  "_resolved": "git+https://github.com/dungna7/backgroung-plugin-service-comming-call.git",
+  "_resolved": "git+https://github.com/dungna7/backgroung-plugin-service-comming-call.git#41f4b554378c79908b7840090594b1a22c5def41",
   "_spec": "https://github.com/dungna7/backgroung-plugin-service-comming-call.git",
   "_where": "C:\\dungna-project\\comechat-servers\\android",
   "author": {

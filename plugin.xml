@@ -10,12 +10,9 @@
 			<uses-permission android:name="android.permission.INTERNET"/>
 			<uses-permission android:name="android.permission.RECORD_AUDIO"/>
 			<uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
-			<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-			<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-			<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+			<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 			<uses-permission android:name="android.permission.WAKE_LOCK" />
-			<uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
-			<uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+			<uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
     		<uses-permission android:name="com.symbol.emdk.permission.EMDK" />
 			<uses-permission android:name="android.permission.VIBRATE"/>
 		</config-file>
@@ -27,8 +24,8 @@
 				android:exported="true">
 				<intent-filter>
 					<action android:name="android.intent.action.BOOT_COMPLETED"/>
-					<action android:name="android.net.wifi.WIFI_STATE_CHANGED"/>
-					<action android:name="android.net.wifi.STATE_CHANGE"/>
+					<action android:name="io.esparta.notifications.BROADCAST_NOTIFICATION" />
+					<action android:name="com.google.android.c2dm.intent.RECEIVE"/>
 				</intent-filter>
 			</receiver>
 			<service

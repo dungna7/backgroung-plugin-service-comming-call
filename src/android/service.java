@@ -24,6 +24,7 @@ import static android.view.WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCRE
 import static android.view.WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD;
 import static android.view.WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED;
 import static android.view.WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON;
+import static android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN;
 import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
 import android.content.SharedPreferences;
 import android.os.Handler;
@@ -61,11 +62,11 @@ public class service extends Service {
 
     @Override
     public void onCreate() {
-        if (mTimer != null) // Cancel if already existed
-            mTimer.cancel();
-        else
-            mTimer = new Timer(); // recreate new
-        mTimer.scheduleAtFixedRate(new TimeDisplay(), 0, notify);
+        // if (mTimer != null) // Cancel if already existed
+        // mTimer.cancel();
+        // else
+        // mTimer = new Timer(); // recreate new
+        // mTimer.scheduleAtFixedRate(new TimeDisplay(), 0, notify);
         ContentResolver cr = getContentResolver();
 
         int current = Settings.Global.WIFI_SLEEP_POLICY_DEFAULT;
@@ -88,6 +89,7 @@ public class service extends Service {
         this.userCompanycd = prefs.getString("userCompanycd", "");
         this.userInfo = prefs.getString("userInfo", "");
         this.socketURL = prefs.getString("url", URL);
+        Log.i("socketURL_url", URL);
         this.socketEmit = prefs.getString("emitChanel", "voicechat:before_call");
         this.socketListen = prefs.getString("listenChanel", "voicechat:receiveCall");
         try {
@@ -146,8 +148,9 @@ public class service extends Service {
                         try {
                             JSONArray arr = data.getJSONObject("users").getJSONArray("tourguiders");
                             for (int i = 0; i < arr.length(); i++) {
-                                if (userName.equalsIgnoreCase(arr.getJSONObject(i).getString("nickname"))
-                                        && userid.equalsIgnoreCase(arr.getJSONObject(i).getString("id"))) {
+                                // if (userName.equalsIgnoreCase(arr.getJSONObject(i).getString("nickname"))
+                                // && userid.equalsIgnoreCase(arr.getJSONObject(i).getString("id"))) {
+                                if (userid.equalsIgnoreCase(arr.getJSONObject(i).getString("id"))) {
                                     isInGroup = true;
                                 }
                             }
