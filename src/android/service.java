@@ -69,20 +69,22 @@ public class service extends Service {
         // mTimer.scheduleAtFixedRate(new TimeDisplay(), 0, notify);
         ContentResolver cr = getContentResolver();
 
-        int current = Settings.Global.WIFI_SLEEP_POLICY_DEFAULT;
-        try {
-            current = Settings.System.getInt(cr, Settings.Global.WIFI_SLEEP_POLICY);
-        } catch (SettingNotFoundException e) {
-            // pass over it, assume default
-            Log.w("WifiLockService.LOG_TAG", "Setting could not be read, " + "assuming WIFI_SLEEP_POLICY_DEFAULT");
-        }
+        // int current = Settings.Global.WIFI_SLEEP_POLICY_DEFAULT;
+        // try {
+        // current = Settings.System.getInt(cr, Settings.Global.WIFI_SLEEP_POLICY);
+        // } catch (SettingNotFoundException e) {
+        // // pass over it, assume default
+        // Log.w("WifiLockService.LOG_TAG", "Setting could not be read, " + "assuming
+        // WIFI_SLEEP_POLICY_DEFAULT");
+        // }
 
-        if (current == Settings.Global.WIFI_SLEEP_POLICY_DEFAULT) {
-            Settings.System.putInt(getContentResolver(), Settings.Global.WIFI_SLEEP_POLICY,
-                    Settings.Global.WIFI_SLEEP_POLICY_NEVER);
-        } else {
-            Log.i("WifiLockService.LOG_TAG", "Changing Wifi sleep policy to DEFAULT");
-        }
+        // if (current == Settings.Global.WIFI_SLEEP_POLICY_DEFAULT) {
+        // Settings.System.putInt(getContentResolver(),
+        // Settings.Global.WIFI_SLEEP_POLICY,
+        // Settings.Global.WIFI_SLEEP_POLICY_NEVER);
+        // } else {
+        // Log.i("WifiLockService.LOG_TAG", "Changing Wifi sleep policy to DEFAULT");
+        // }
         SharedPreferences prefs = getApplicationContext().getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE);
         this.userName = prefs.getString("userName", "");
         this.userid = prefs.getString("userid", "");
@@ -136,6 +138,7 @@ public class service extends Service {
                 mSocket.emit(socketEmit);
                 String tourguiders = "NULL";
                 String companycd = "";
+                Log.i("socketURL_url beforeCall", URL);
                 try {
                     tourguiders = data.getJSONObject("users").getString("tourguiders");
                     companycd = data.getJSONObject("users").getString("companyofGroup");
