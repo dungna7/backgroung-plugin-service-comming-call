@@ -34,7 +34,8 @@ public class RestartService extends BroadcastReceiver {
                     context.startService(startServiceIntent);
                 }
             } else {
-                ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                // ConnectivityManager cm = (ConnectivityManager)
+                // context.getSystemService(Context.CONNECTIVITY_SERVICE);
                 // NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
                 // boolean isConnected = activeNetwork != null &&
                 // activeNetwork.isConnectedOrConnecting();

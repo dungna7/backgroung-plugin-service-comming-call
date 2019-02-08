@@ -67,7 +67,7 @@ public class service extends Service {
         // else
         // mTimer = new Timer(); // recreate new
         // mTimer.scheduleAtFixedRate(new TimeDisplay(), 0, notify);
-        ContentResolver cr = getContentResolver();
+        // ContentResolver cr = getContentResolver();
 
         // int current = Settings.Global.WIFI_SLEEP_POLICY_DEFAULT;
         // try {
@@ -191,6 +191,8 @@ public class service extends Service {
                         dialogIntent.putExtra("serviceCallInfo", data.toString());
                         dialogIntent.putExtra("serviceScrennInfo", isPhoneLocked);
                         startActivity(dialogIntent);
+                        mSocket.disconnect();
+                        mSocket.off("voicechat:beforeCall");
                     }
                 }
             }
